@@ -166,7 +166,7 @@ class GestionarObra(ABC):
                 print(f"Error fila {idx}: {e}")
 
         db.close()
-        print("🏁 Proceso de carga finalizado")
+        print("Proceso de carga finalizado")
 
 
 
@@ -253,7 +253,7 @@ class GestionarObra(ABC):
 
         obra.save()
         db.close()
-        print(f"✅ Obra creada con ID: {obra.id_obra}")
+        print(f"Obra creada con ID: {obra.id_obra}")
         return obra
     
 

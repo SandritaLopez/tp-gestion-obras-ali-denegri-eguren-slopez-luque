@@ -3,12 +3,12 @@ from peewee import *
 import random
 from datetime import datetime
 import pandas as pd
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import contextily as ctx
+#import geopandas as gpd
+#import matplotlib.pyplot as plt
+#import contextily as ctx
 
 # Definimos la base de datos SQLite que se usará
-db = SqliteDatabase("obras_urbanas.db")
+db = SqliteDatabase("obras_urbanas2.db")
 
 
 
@@ -77,6 +77,7 @@ class Comuna(BaseModel):
 class Barrio(BaseModel):
     id_barrio = AutoField()
     barrio = CharField()
+    id_comuna = ForeignKeyField(Comuna, null=True, backref="barrios")
 
     def __str__(self):
         return f"Barrio {self.barrio}"
@@ -88,7 +89,7 @@ class Barrio(BaseModel):
 class Empresa(BaseModel):
     id_empresa = AutoField()
     nombre = CharField()  # Nombre de la empresa
-    cuit = CharField()    # CUIT de la empresa
+    cuit = CharField(null=True)    # CUIT de la empresa
 
     def __str__(self):
         return f"Empresa {self.nombre}"
@@ -99,7 +100,7 @@ class Empresa(BaseModel):
 # Tabla de licitaciones (procesos de contratación)
 class Contratacion(BaseModel):
     id_contratacion = AutoField()
-    tipo = CharField()                   # Tipo de licitación
+    tipo = CharField()                   # Tipo de contratacion
 
     def __str__(self):
         return f"Licitación {self.expediente_numero}"
@@ -121,9 +122,9 @@ class Financiamiento(BaseModel):
 
 class Ubicacion(BaseModel):
     id_ubicacion = AutoField()
-    direccion = CharField()
-    lat = FloatField()
-    long = FloatField()
+    direccion = CharField(null=True)
+    lat = FloatField(null=True)
+    long = FloatField(null=True)
 
     def __str__(self):
       return f"Ubicación (Dirección) {self.direccion}"
@@ -136,13 +137,13 @@ class Ubicacion(BaseModel):
 class Obra(BaseModel):
     id_obra = AutoField()
     nombre = CharField()
-    descripcion = CharField()
-    monto_contrato = FloatField()
-    plazo_meses = IntegerField()
+    descripcion = CharField(null=True)
+    monto_contrato = FloatField(null=True)
+    plazo_meses = IntegerField(null=True)
     fecha_inicio = DateField(null=True)
-    fecha_fin = DateField(null=True)
-    porcentaje_avance = IntegerField()
-    mano_obra = IntegerField()
+    fecha_fin_inicial = DateField(null=True)
+    porcentaje_avance = IntegerField(null=True)
+    mano_obra = IntegerField(null=True)
     nro_expediente = CharField(null=True)
     nro_contratacion = CharField(null=True)
     esDestacada = BooleanField(null=True)
@@ -228,7 +229,7 @@ class Obra(BaseModel):
     def adjudicar_obra(self, empresa):
 
         try:
-            empresa_adjudicar = Empresa.get(Empresa.tipo == empresa)
+            empresa_adjudicar = Empresa.get(Empresa.nombre == empresa)
             self.id_empresa = empresa_adjudicar.id_empresa
             self.nro_expediente = self.generar_numExpediente()
         except DoesNotExist:
@@ -242,7 +243,7 @@ class Obra(BaseModel):
         if isinstance(fechaInicio, str):
             fechaInicio = datetime.strptime(fechaInicio, "%Y-%m-%d").date()
 
-        if isinstance(fechaInicio, str):
+        if isinstance(fechaFinInicial, str):
             fechaFinInicial = datetime.strptime(fechaFinInicial, "%Y-%m-%d").date()
 
         if fechaFinInicial < fechaInicio:
@@ -274,6 +275,9 @@ class Obra(BaseModel):
             print("El plazo no puede ser menor al existente")
         else:
             self.plazo_meses = nuevoPlazo
+            print("Se actualizó la mano de obra")
+        
+        self.save()
          
     def incrementar_mano_obra(self, incrementoManoObra):
 
@@ -281,6 +285,9 @@ class Obra(BaseModel):
             print("La cantidad de mano de obra a agregar no puede ser 0 ni menor a 0")
         else:
             self.mano_obra = incrementoManoObra
+            print("Se actualizó la mano de obra")
+        
+        self.save()
  
     def finalizar_obra(self):
         etapa = Etapa.get(Etapa.etapa == "Finalizada")

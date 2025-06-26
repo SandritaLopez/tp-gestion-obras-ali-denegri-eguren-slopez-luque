@@ -353,45 +353,4 @@ class GestionarObra(ABC):
         print("\nMonto total de inversión estimado mostrado arriba.")
         db.close()
 
-if __name__ == "__main__":
-    df = GestionarObra.extraer_datos()
-    conexion_db = GestionarObra.conectar_db()
-    GestionarObra.mapear_orm(conexion_db)
-    df_limpio = GestionarObra.limpiar_datos(df)
-    GestionarObra.cargar_datos(df_limpio)
-    obra = GestionarObra.nueva_obra()
 
-    obra.nuevo_proyecto("Arquitectura", "Ministerio De Cultura", "San Nicolás")
-
-    # Iniciar contratación
-    obra.iniciar_contratacion("Licitación Pública", "PL-1234")
-
-    # Adjudicar la obra a una empresa
-    obra.adjudicar_obra("Constructora Solana S.A")
-
-    # Iniciar la obra con más detalles
-    
-    obra.iniciar_obra(
-        esDestacada=True,
-        fechaInicio="2025-07-01",
-        fechaFinInicial="2026-07-01",
-        fuenteFinanc="Nación Gcba",
-        manoObra=20
-    )
-
-    # Actualizar porcentaje de avance
-    obra.actualizar_porcentaje_avance(35)
-
-    # Incrementar mano de obra
-    obra.incrementar_mano_obra(30)
-
-    # Incrementar plazo
-    obra.incrementar_plazo(18)
-
-    # Finalizar la obra
-    # obra.finalizar_obra()
-
-    # Ver el resultado
-    print(f"✅ Obra actualizada:\n{obra}")
-
-    GestionarObra.obtener_indicadores()

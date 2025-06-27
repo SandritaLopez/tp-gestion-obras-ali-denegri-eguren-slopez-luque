@@ -167,78 +167,7 @@ class GestionarObra(ABC):
         db.close()
         print("🏁 Proceso de carga finalizado")
 
-   # @classmethod
-    # def nueva_obra(cls):
 
-    #     db = cls.conectar_db()
-    #     db.connect()
-
-    #     def pedir_instancia(modelo, campo):
-    #         while True:
-    #             valor = input(f"Ingrese {campo}: ").strip().title()
-    #             try:
-    #                 return modelo.get(getattr(modelo, campo) == valor)
-    #             except modelo.DoesNotExist:
-    #                 print(f"No se encontró {valor} en la tabla {modelo.__name__}. Intente de nuevo.")
-
-    #     entorno = pedir_instancia(Entorno, 'entorno')
-    #     tipo_intervencion = pedir_instancia(TipoIntervencion, 'tipo')
-    #     area_responsable = pedir_instancia(AreaResponsable, 'area_nombre')
-    #     comuna = pedir_instancia(Comuna, 'comuna')
-    #     barrio = pedir_instancia(Barrio, 'barrio')
-    #     etapa = pedir_instancia(Etapa, 'etapa')
-    #     licitacion = pedir_instancia(Contratacion, 'nro_contratacion')
-    #     financiamiento = pedir_instancia(Financiamiento, 'fuente')
-
-    #     nombre = input("Nombre: ").strip()
-    #     descripcion = input("Descripción: ").strip()
-    #     direccion = input("Dirección: ").strip()
-    #     lat = float(input("Latitud: "))
-    #     lng = float(input("Longitud: "))
-    #     fecha_inicio = input("Fecha de inicio (YYYY-MM-DD): ")
-    #     fecha_fin_inicial = input("Fecha fin estimada (YYYY-MM-DD): ")
-    #     plazo_meses = int(input("Plazo (meses): "))
-    #     porcentaje_avance = int(input("Avance (%): "))
-    #     beneficiarios = input("Beneficiarios: ").strip()
-    #     mano_obra = int(input("Mano de obra: "))
-    #     compromiso = input("¿Compromiso? (s/n): ").lower() == 's'
-    #     destacada = input("¿Destacada? (s/n): ").lower() == 's'
-    #     ba_elige = input("¿BA Elige? (s/n): ").lower() == 's'
-    #     link_interno = input("Link interno: ").strip()
-    #     pliego = input("Pliego: ").strip()
-    #     estudio = input("Estudio ambiental: ").strip()
-
-    #     obra = Obra(
-    #         entorno=entorno,
-    #         tipo_intervencion=tipo_intervencion,
-    #         area_responsable=area_responsable,
-    #         comuna=comuna,
-    #         barrio=barrio,
-    #         etapa=etapa,
-    #         licitacion=licitacion,
-    #         financiamiento=financiamiento,
-    #         nombre=nombre,
-    #         descripcion=descripcion,
-    #         direccion=direccion,
-    #         lat=lat,
-    #         lng=lng,
-    #         fecha_inicio=fecha_inicio,
-    #         fecha_fin_inicial=fecha_fin_inicial,
-    #         plazo_meses=plazo_meses,
-    #         porcentaje_avance=porcentaje_avance,
-    #         beneficiarios=beneficiarios,
-    #         mano_obra=mano_obra,
-    #         compromiso=compromiso,
-    #         destacada=destacada,
-    #         ba_elige=ba_elige,
-    #         link_interno=link_interno,
-    #         pliego_descarga=pliego,
-    #         estudio_ambiental_descarga=estudio
-    #     )
-    #     obra.save()
-    #     db.close()
-    #     print(f"✅ Obra creada con ID: {obra.id_obra}")
-    #     return obra
 
     @classmethod
     def nueva_obra(cls):

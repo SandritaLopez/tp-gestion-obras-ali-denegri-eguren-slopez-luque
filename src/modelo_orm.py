@@ -10,8 +10,6 @@ import pandas as pd
 # Definimos la base de datos SQLite que se usará
 db = SqliteDatabase("obras_urbanas2.db")
 
-
-
 # Clase base de la que heredarán todos los modelos, asigna la base de datos
 class BaseModel(Model):
     class Meta:
@@ -179,13 +177,13 @@ class Obra(BaseModel):
             area = AreaResponsable.get(AreaResponsable.area_nombre == areaResponsable)
             self.id_area_responsable = area.id_area
         except DoesNotExist:
-            print("El tipo de intervención ingresada no existe.")
+            print("El area responsable ingresada no existe.")
 
         try:
             barrioObra = Barrio.get(Barrio.barrio == barrio)
             self.id_barrio = barrioObra.id_barrio
         except DoesNotExist:
-            print("El tipo de intervención ingresada no existe.")
+            print("El barrio ingresado no existe.")
 
         self.save() 
 
@@ -254,8 +252,6 @@ class Obra(BaseModel):
 
         self.mano_obra = manoObra
 
-        self.save()
-
         try:
             fuente = Financiamiento.get(Financiamiento.fuente == fuenteFinanc)
             self.id_financiamiento = fuente.id_financiamiento
@@ -305,30 +301,6 @@ class Obra(BaseModel):
 
         self.save()
        
-    def dibujar_mapa(self):
-        df = pd.read_csv('data/observatorio-de-obras-urbanas.csv')
-
-        gdf = gpd.GeoDataFrame(
-            df,
-            geometry=gpd.points_from_xy(df['lng'], df['lat']),
-            crs='EPSG:4326'  # Sistema WGS84 (lat/lon)
-        )
-
-        gdf = gdf.to_crs(epsg=3857)
-
-        # Crear figura
-        fig, ax = plt.subplots(figsize=(10, 10))
-
-        # Dibujar puntos
-        gdf.plot(ax=ax, color='red', markersize=50)
-
-        # Agregar mapa base (OpenStreetMap)
-        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-
-        # Opcional: ajustar vista al extento de tus datos
-        ax.set_axis_off()
-        plt.show()
-
     def __str__(self):
         return f"Obra {self.nombre}"
 

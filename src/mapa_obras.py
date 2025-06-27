@@ -6,7 +6,7 @@ import folium                  # Para crear mapas interactivos con marcadores
 # pip install folium
 
 # Leer el archivo CSV que contiene información de obras urbanas
-df = pd.read_csv("../data/observatorio-de-obras-urbanas.csv",
+df = pd.read_csv("data/observatorio-de-obras-urbanas.csv",
                  encoding="latin1", sep=";")  # Se especifica el encoding y el separador ";"
 
 # --- LIMPIEZA DE COORDENADAS ---
